@@ -1,0 +1,52 @@
+.iconModal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.iconModalContent {
+  background: rgba(194, 233, 237, 0.78);
+  margin: 20% auto;
+  padding: 20px;
+  width: 70%;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.3), 0 7px 20px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+
+#frmIconSearch {
+  padding-top: 20px;
+}
+
+#iconSearchResults {
+  /* display: flex; */
+  width: 95%;
+  height: 80%;
+  margin: 10px auto;
+  background: rgba(220, 241, 211, 0.74);
+  border-radius: 20px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+#iconCloseBtn {
+  color: #696969;
+}
+
+#iconCloseBtn:hover {
+  color: black;
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+}
+
+.icon:hover {
+  background: rgba(90, 161, 83, 0.79);
+  border-radius: 20px;
+}

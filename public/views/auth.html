@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="PlanApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>Planit Members</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"
+      charset="utf-8"
+    ></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
+  </head>
+  <body ng-controller="PlanController as ctrl">
+    <!-- Carousel -->
+    <div class="pic-container">
+      <!-- previous button -->
+      <div class="carousel-button previous"></div>
+      <!-- images -->
+      <div class="carousel-images">
+        <img
+          src="../img/estee-janssens-396885-unsplash.jpg"
+          alt="coffee you cannot see"
+        />
+      </div>
+      <!-- next button -->
+      <div class="carousel-button next"></div>
+    </div>
+    <div class="rounded" id="container">
+      <h1>planit</h1>
+      <div class="rounded-pill" id="newbie">
+        <h2>planit newbie</h2>
+        <button ng-click="ctrl.showCreateUser = !ctrl.showCreateUser">
+          Create Account
+        </button>
+        <form ng-submit="ctrl.createUser()" ng-if="ctrl.showCreateUser">
+          <input type="text" ng-model="ctrl.username" placeholder="username" />
+          <input
+            type="password"
+            ng-model="ctrl.password"
+            placeholder="password"
+          />
+          <input ng-click="reset()" type="submit" value="Enter" />
+        </form>
+      </div>
+      <div class="rounded-pill" id="guru">
+        <h2>planit guru</h2>
+        <button ng-click="ctrl.showLogInUser = !ctrl.showLogInUser">
+          Log In
+        </button>
+        <form ng-submit="ctrl.logIn()" ng-if="ctrl.showLogInUser">
+          <input
+            type="text"
+            ng-model="ctrl.usernameLogIn"
+            placeholder="username"
+          />
+          <input
+            type="password"
+            ng-model="ctrl.passwordLogIn"
+            placeholder="password"
+          />
+          <input ng-click="reset()" type="submit" value="Enter" />
+        </form>
+        <div ng-if="ctrl.loggedInUsername">
+          <a href="../index.html"> Enter planit</a>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <footer>
+      <nav class="d-flex justify-content-center">
+        <a href="#" class="fa fa-facebook"></a>
+        <a href="#" class="fa fa-twitter"></a>
+        <a href="#" class="fa fa-instagram" aria-hidden="true"></a>
+        <a href="#" class="fa fa-linkedin"></a>
+      </nav>
+    </footer>
+  </body>
+</html>

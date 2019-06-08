@@ -1,0 +1,32 @@
+{
+  "name": "ladies-of-the-byte",
+  "version": "1.0.0",
+  "engines": {
+    "node": "11.4.0"
+  },
+  "description": "WDIR Unit 3 Group Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lornitzoa/ladies-of-the-byte.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lornitzoa/ladies-of-the-byte/issues"
+  },
+  "homepage": "https://github.com/lornitzoa/ladies-of-the-byte#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.10",
+    "oauth": "^0.9.15",
+    "the-noun-project": "^2.1.0"
+  }
+}

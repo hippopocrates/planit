@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="PlanApp">
+  <head>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"
+      charset="utf-8"
+    ></script>
+    <script src="/js/app.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/app.css">
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body ng-controller="PlanController as ctrl">
+    <form ng-submit="ctrl.createEvent()" ng-if='ctrl.showNewForm === true'>
+      <input type="text" placeholder="Title" ng-model="ctrl.title" />
+      <input type="text" placeholder="Date" ng-model="ctrl.date" />
+      <input type="text" placeholder="Location" ng-model="ctrl.location" />
+      <input type="text" placeholder="image" ng-model="ctrl.image">
+      <input type="submit" name="" value="Make a Plan" ng-click='ctrl.showPlanOpts = true'>
+      <input type="submit" name="" value="Save and Return Home" ng-click='window.location.href="./index.html"'>
+      <!-- i want this option to return user to home page or close the create new modal -->
+    </form>
+    <div class="">
+      <h1 ng-model='ctrl.planTitle'>{{ctrl.plan.title}}</h1>
+      <h2>{{ctrl.plan.date | date: MM/dd/yyyy}}</h2>
+      <h3>{{ctrl.plan.location}}</h3>
+      <!-- <img src="{{ctrl.plan.image}}" alt=""> -->
+      <form  ng-submit="ctrl.createTodo()" ng-if='ctrl.showPlanOpts === true' >
+        <h2>Task List</h2>
+        <input type="text" placeholder="Task" ng-model="ctrl.taskName" ng-class='todoItem'>
+        <input type="text" placeholder="Due Date" ng-model="ctrl.dueDate" ng-class='todoItem'>
+        <input type="text" placeholder="Notes" ng-model="ctrl.notes" ng-class='todoItem'>
+        <input type="submit" name="" value="Add Task">
+        <!-- write code to clear form after submit -->
+      </form>
+      <ul ng-repeat="item in ctrl.todoList | orderBy: '-dueDate' : true">
+        <li>{{item.taskName }} {{ item.dueDate | date: MM/dd/yyyy }} {{ item.notes }}</li>
+
+      </ul>
+    </div>
+
+  </body>
+</html>

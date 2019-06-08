@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" ng-app="PlanApp">
+  <head>
+    <meta charset="utf-8" />
+    <title>Planit</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      charset="utf-8"
+    ></script>
+    <script src="js/api.js" charset="utf-8"></script>
+    <script src="js/app.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/api.css" />
+  </head>
+  <body ng-controller="PlanController as ctrl">
+    <header>
+      <div id="headerTop">
+        <div class="headerCard"><h3>planit</h3></div>
+        <div class="headerCard">
+          <nav>
+            <a href="#">home</a> <a href="#">about</a>
+
+            <a href="/views/auth.html"
+              ><button ng-if="!ctrl.loggedInUsername">Sign Up</button></a
+            >
+            <button ng-if="ctrl.loggedInUsername" ng-click="ctrl.logOut()">
+              Log Out
+            </button>
+          </nav>
+        </div>
+      </div>
+      <h1 ng-if="!ctrl.loggedInUsername">Hi. This is planit.</h1>
+      <h1 ng-if="ctrl.loggedInUsername">
+        Hi, {{ctrl.loggedInUsername}}! This is planit.
+      </h1>
+      <h3>we're here to sweat the small stuff while you enjoy the ride.</h3>
+      <br />
+
+      <button
+        ng-if="ctrl.loggedInUsername"
+        ng-click="ctrl.showAddEventForm = !ctrl.showAddEventForm"
+        id="addEventBtn"
+      >
+        add event
+      </button>
+      <div id="addEvent">
+        <form
+          ng-if="ctrl.showAddEventForm && ctrl.loggedInUsername"
+          ng-submit="ctrl.createEvent()"
+          id="newPlan"
+        >
+          <input type="text" placeholder="Title" ng-model="ctrl.title" />
+          <input
+            id="dateBox"
+            type="date"
+            placeholder="mm/dd/yy"
+            ng-model="ctrl.date"
+          />
+          <input type="text" placeholder="Location" ng-model="ctrl.location" />
+          <!-- AL added: input for image url -->
+          <input
+            type="text"
+            placeholder="image"
+            ng-model="ctrl.image"
+            id="txtIconURL"
+          />
+          <!-- opens modal to search for icon from API -->
+          <button type="button" ng-click="ctrl.showIconSearch()">
+            Add Icon
+          </button>
+          <input type="submit" id="planItBtn" class="button" value="plan it" />
+        </form>
+      </div>
+    </header>
+    <h2>"A goal without a plan is just a wish."</h2>
+    <div ng-if="ctrl.loggedInUsername" class="cards">
+      <div ng-repeat="event in ctrl.events" class="card">
+        <img src="{{event.image}}" alt="" /> <br />
+        <div class="eventInfo">
+          <h3>{{event.title}}</h3>
+          <p>{{event.location}}</p>
+          <p>{{event.date | date: 'MM/dd/yyyy'}}</p>
+        </div>
+
+        <button
+          ng-click="ctrl.showUpdateForm = !ctrl.showUpdateForm; ctrl.indexOfFormToShow = $index"
+        >
+          update
+        </button>
+
+        <!-- modal start -->
+        <button
+          id="modalBtn"
+          ng-click="event.modal = true; ctrl.getPlanTodos(event._id)"
+        >
+          details
+        </button>
+        <div id="simpleModal" class="modal" ng-if="event.modal">
+          <div class="modalContent">
+            <span
+              ng-click="event.modal = false; ctrl.todoList = []"
+              class="closeBtn"
+              >&times;</span
+            >
+
+            <h1>{{event.title}} task list</h1>
+            <ul>
+              <li ng-repeat="todo in ctrl.todoList">
+                {{todo.taskName}}: {{todo.dueDate | date: 'MM/dd/yyyy'}} <br />
+                Notes: {{todo.notes}} <br />
+                <button type="button" ng-click="ctrl.deleteTodo()">
+                  Delete
+                </button>
+              </li>
+            </ul>
+            <!-- clears todoList for next details click -->
+            <form ng-submit="ctrl.createTodo(event)">
+              <input type="text" placeholder="Task" ng-model="ctrl.taskName" />
+              <input
+                type="date"
+                placeholder="Due mm/dd/yy"
+                ng-model="ctrl.dueDate"
+              />
+              <input type="text" placeholder="Notes" ng-model="ctrl.notes" />
+              <input type="submit" class="button" value="add task" />
+            </form>
+          </div>
+        </div>
+        <!-- modal end -->
+
+        <button ng-click="ctrl.deleteEvent(event)">delete</button>
+        <form
+          ng-if="ctrl.showUpdateForm && $index === ctrl.indexOfFormToShow"
+          ng-submit="ctrl.updateEvent(event)"
+        >
+          <input type="text" ng-model="ctrl.updatedTitle" placeholder="title" />
+          <input
+            type="text"
+            ng-model="ctrl.updatedLocation"
+            placeholder="location"
+          />
+          <input
+            type="date"
+            ng-model="ctrl.updatedDate"
+            placeholder="mm/dd/yy"
+          />
+          <input
+            ng-click="ctrl.updateEvent(event)"
+            type="submit"
+            class="button"
+            value="submit"
+          />
+        </form>
+      </div>
+    </div>
+    <div class="iconModal" ng-show="ctrl.openIconSearchModal">
+      <div class="iconModalContent">
+        <span
+          ng-click="ctrl.openIconSearchModal = false"
+          class="closeBtn"
+          id="iconCloseBtn"
+        >
+          &times;
+        </span>
+        <form id="frmIconSearch" ng-submit="ctrl.searchIcons()">
+          <input
+            type="text"
+            id="txtIconSearch"
+            ng-model="ctrl.txtSearchIcons"
+          />
+          <input type="submit" class="button" name="" value="Search" />
+        </form>
+        <div id="iconSearchResults" ng-class="iconSearchResults">
+          <img
+            ng-repeat="icon in ctrl.icons"
+            src="{{icon.attribution_preview_url}}"
+            class="icon"
+            ng-click="ctrl.sendIconToDB(icon.attribution_preview_url)"
+          />
+        </div>
+      </div>
+    </div>
+    <footer><h4>&#8594; Ladies of the Byte &#8592;</h4></footer>
+  </body>
+</html>
